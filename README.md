@@ -9,7 +9,7 @@ This is how it works in dayly use:
 
 Now you see a window with a qrcode inside and an URI underneath, followed by a button to toggle through your network interfaces. The right network interface should be allready selected.
 
-* Grap your Android Phone, Windows Phone, iPhone, Android Tablett, iPad, iPod Touch, Ubuntu Phone or whatever mobile device you have.
+* Grab your Android Phone, Windows Phone, iPhone, Android Tablett, iPad, iPod Touch, Ubuntu Phone or whatever mobile device you have.
 * Fire up your QR code scanner app (e.g. Barcode Scanner, by ZXing Team, my recommedation)
 * Scan the code from your computers screen.
 * Choose "Open in Browser".
