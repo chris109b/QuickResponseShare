@@ -5,7 +5,7 @@
 # This file is part of the Quick Response Share project.
 # The program is designed for sharing files ad hoc to mobile clients
 # via HTTP. It shows a QR code within a GTK window, that contains
-# the URI of the integraget HTTP server.
+# the URI of the integrated HTTP server.
 #
 # This file integrates the sharing function to the file context
 # menu of Nautilus File Manager.
@@ -41,29 +41,45 @@ class ColumnExtension(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         print "qrshare - Quick Response Share Nautilus Integration"
 
-    def menu_activate_cb(self, menu, files):
+    def menu_activate_receive_files(self, menu, folder):
+        call_list = list()
+        call_list.append("qrreceive")
+        location = folder.get_location()
+        path = location.get_parse_name()
+        call_list.append(path)
+        subprocess.Popen(call_list)
+
+    def menu_activate_share_files(self, menu, files):
         call_list = list()
         call_list.append("qrshare")
-        for fileinfo in files:
-            location = fileinfo.get_location()
+        for file_info in files:
+            location = file_info.get_location()
             path = location.get_parse_name()
             call_list.append(path)
         subprocess.Popen(call_list)
 
     def get_file_items(self, window, files):
         usable_files = list()
-        for fileinfo in files:
-            if not fileinfo.is_directory():
-                usable_files.append(fileinfo)
+        for file_info in files:
+            if not file_info.is_directory():
+                usable_files.append(file_info)
 
         if len(usable_files) == 0:
             return
 
-        item = Nautilus.MenuItem(
-            name="SimpleMenuExtension::Show_File_Name",
+        share_item = Nautilus.MenuItem(
+            name="QuickShareExtension::Share",
             label="Quick share {0} files".format(len(usable_files)),
-            tip="Share files to a Smartphone, Tablett or PC"
+            tip="Share files to a smart phone, tablet or PC"
         )
-        item.connect('activate', self.menu_activate_cb, usable_files)
+        share_item.connect('activate', self.menu_activate_share_files, usable_files)
 
-        return [item]
+        return [share_item]
+
+    def get_background_items(self, window, folder):
+        receive_item = Nautilus.MenuItem(
+            name="QuickShareExtension::Receive",
+            label="Receive Smart Phone images",
+            tip="Create an inbox folder to receive files from a smart phone, tablet or PC"
+        )
+        receive_item.connect('activate', self.menu_activate_cb, folder)
