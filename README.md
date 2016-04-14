@@ -19,7 +19,7 @@ Now you see a window with a qrcode inside and an URI underneath, followed by a b
 Now on your mobile device you should see a list of all the files you have shared, ready for download individually by taping on the files name.
 
 ## Installation
-* First dependencies from the repository, e.g. using a terminal enter "sudo apt-get install python-qrcode python-rsvg".
+* First dependencies from the repository, e.g. using a terminal enter "sudo apt-get install python-tornado python-qrcode python-rsvg".
 * Copy the file "qrshare.py" to "/usr/local/bin/".
 * Rename the file to ""qrshare",  e.g. using a terminal enter "sudo mv /usr/local/bin/qrshare.py /usr/local/bin/qrshare".
 * Add execution rights for everyone, e.g. using a terminal enter "sudo chmod a+rx /usr/local/bin/qrshare".
