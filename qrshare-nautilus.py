@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # qrshare - Quick Response Share Nautilus Integration
 #
@@ -39,15 +39,7 @@ import subprocess
 class ColumnExtension(GObject.GObject, Nautilus.MenuProvider):
 
     def __init__(self):
-        print "qrshare - Quick Response Share Nautilus Integration"
-
-    def menu_activate_receive_files(self, menu, folder):
-        call_list = list()
-        call_list.append("qrreceive")
-        location = folder.get_location()
-        path = location.get_parse_name()
-        call_list.append(path)
-        subprocess.Popen(call_list)
+        print("qrshare - Quick Response Share Nautilus Integration")
 
     def menu_activate_share_files(self, menu, files):
         call_list = list()
@@ -67,19 +59,16 @@ class ColumnExtension(GObject.GObject, Nautilus.MenuProvider):
         if len(usable_files) == 0:
             return
 
+        if len(usable_files) == 1:
+            label_pattern = "Share {0} file"
+        else:
+            label_pattern = "Share {0} files"
+
         share_item = Nautilus.MenuItem(
-            name="QuickShareExtension::Share",
-            label="Quick share {0} files".format(len(usable_files)),
-            tip="Share files to a smart phone, tablet or PC"
+            name="QuickResponseShareExtension::Share",
+            label=label_pattern.format(len(usable_files)),
+            tip="Share files to a smart phone, tablet computer or PC"
         )
         share_item.connect('activate', self.menu_activate_share_files, usable_files)
 
         return [share_item]
-
-    def get_background_items(self, window, folder):
-        receive_item = Nautilus.MenuItem(
-            name="QuickShareExtension::Receive",
-            label="Receive Smart Phone images",
-            tip="Create an inbox folder to receive files from a smart phone, tablet or PC"
-        )
-        receive_item.connect('activate', self.menu_activate_cb, folder)
